@@ -8,16 +8,16 @@ def colorDetect(dir):
   # HSV ranges for each color taken from 
   # https://stackoverflow.com/questions/36817133/identifying-the-range-of-a-color-in-hsv-using-opencv
 
-  color_dict_HSV = {'black': [[180, 255, 30], [0, 0, 0]],
+  color_dict_HSV = {'black': [[180, 255, 30], [0, 0, 1]],
                 'white': [[180, 18, 255], [0, 0, 231]],
-                'red1': [[180, 255, 255], [166, 50, 70]],
-                'red2': [[9, 255, 255], [0, 50, 70]],
-                'green': [[89, 255, 255], [36, 50, 70]],
-                'blue': [[128, 255, 255], [90, 50, 70]],
-                'yellow': [[35, 255, 255], [25, 50, 70]],
-                'purple': [[144, 255, 255], [129, 50, 70]],
-                'pink': [[165,255,255], [145, 50, 70]],
-                'orange': [[24, 255, 255], [10, 50, 70]],
+                'red1': [[180, 255, 230], [166, 50, 70]],
+                'red2': [[9, 255, 230], [0, 50, 70]],
+                'green': [[89, 255, 230], [36, 50, 70]],
+                'blue': [[128, 255, 230], [90, 50, 70]],
+                'yellow': [[35, 255, 230], [25, 50, 70]],
+                'purple': [[144, 255, 230], [129, 50, 70]],
+                'pink': [[165,255,230], [145, 50, 70]],
+                'orange': [[24, 255, 230], [10, 50, 70]],
                 'gray': [[180, 18, 230], [0, 0, 40]]}
 
   color_count = {'black': 0,
@@ -36,6 +36,21 @@ def colorDetect(dir):
     #load image and convert to hsv
     path = "images/" + filename
     rgb_img = cv2.imread(path)
+    height = rgb_img.shape[0]
+    width = rgb_img.shape[1]
+
+    mask = np.zeros(rgb_img.shape[:2],np.uint8)
+    bgdModel =  np.zeros((1,65),np.float64)
+    fgdModel =  np.zeros((1,65),np.float64)
+
+    rect =	(0,0,width - 1, height - 1)
+    cv2.grabCut(rgb_img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
+    mask2 =	np.where((mask==2)|(mask==0),0,1).astype('uint8')
+    rgb_img   =	rgb_img*mask2[:,:,np.newaxis]
+    cv2.imshow("after grabcut", rgb_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
     hsv_img = cv2.cvtColor(rgb_img, cv2.COLOR_BGR2HSV)
     
     #Count the number of pixels for each color

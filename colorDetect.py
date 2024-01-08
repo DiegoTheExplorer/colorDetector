@@ -36,6 +36,11 @@ def colorDetect(dir):
     #load image and convert to hsv
     path = "images/" + filename
     rgb_img = cv2.imread(path)
+    rgb_img = cv2.resize(rgb_img,(0, 0), fx = 0.5, fy = 0.5)
+    rgb_img = cv2.blur(rgb_img,(10,10))
+    cv2.imshow("resized",rgb_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     hsv_img = cv2.cvtColor(rgb_img, cv2.COLOR_BGR2HSV)
     
     #Count the number of pixels for each color

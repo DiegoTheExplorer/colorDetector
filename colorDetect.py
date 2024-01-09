@@ -119,12 +119,14 @@ def colorDetect(dir):
           mask = cv2.inRange(hsv_img,lower,upper)
         color_count[key] = np.count_nonzero(mask)
       
+      # color_ratio = (color_count[key] / (rgb_img.shape[0] * rgb_img.shape[1])) * 100
+      # print("Percentage of ", key, " pixels: ", color_ratio)
+      
     #get the color with the most number of pixels in the image
     car_color = max(color_count, key= lambda x:color_count[x])
     percent_dominant_color_pixels = (color_count[car_color] / (rgb_img.shape[0] * rgb_img.shape[1])) * 100
-
     rows.append([filename,car_color,percent_dominant_color_pixels])
-    #print("The color of the car in " , filename, " is ", car_color)
+    # print( " ***************************** The color of the car in " , filename, " is ", car_color, " *****************************")
     
 
     #display image with the identified color as the window name

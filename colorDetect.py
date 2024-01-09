@@ -49,8 +49,8 @@ def colorDetect(dir):
   color_dict_HSV = {'black': [[180, 255, 30], [0, 0, 0]],
                 'white': [[180, 18, 255], [0, 0, 231]],
                 'red2': [[9, 255, 255], [0, 50, 70]],
-                'orange': [[24, 255, 255], [10, 50, 70]],
-                'yellow': [[35, 255, 255], [25, 50, 70]],
+                'orange': [[20, 255, 255], [10, 50, 70]],
+                'yellow': [[35, 255, 255], [21, 50, 70]],
                 'green': [[89, 255, 255], [36, 50, 70]],
                 'blue': [[114, 255, 255], [90, 50, 70]],
                 'purple': [[144, 255, 255], [115, 50, 70]],
@@ -72,7 +72,7 @@ def colorDetect(dir):
   for filename in files:
 
     # load image and convert to hsv
-    path = "images/" + filename
+    path = dir + "/" + filename
     rgb_img = cv2.imread(path)
     width = rgb_img.shape[1]
     height = rgb_img.shape[0]

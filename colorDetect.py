@@ -46,7 +46,7 @@ def colorDetect(dir):
   # https://stackoverflow.com/questions/36817133/identifying-the-range-of-a-color-in-hsv-using-opencv
   # some values have been changed and pink was added
   
-  color_dict_HSV = {'black': [[180, 255, 30], [0, 0, 0]],
+  color_dict_HSV = {'black': [[180, 250, 30], [0, 0, 0]],
                 'white': [[180, 18, 255], [0, 0, 231]],
                 'red2': [[9, 255, 255], [0, 50, 70]],
                 'orange': [[20, 255, 255], [10, 50, 70]],
@@ -83,6 +83,16 @@ def colorDetect(dir):
     if (height > 576):
       rgb_img = image_resize(rgb_img, height=576)
     
+    # Use grabcut to remove atleast some of the background
+    mask = np.zeros(rgb_img.shape[:2],np.uint8)
+    bgdModel =  np.zeros((1,65),np.float64)
+    fgdModel =  np.zeros((1,65),np.float64)
+
+    rect =	(0,0,width - 1, height - 1)
+    cv2.grabCut(rgb_img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
+    mask2 =	np.where((mask==2)|(mask==0),0,1).astype('uint8')
+    rgb_img   =	rgb_img*mask2[:,:,np.newaxis]
+
     # no post processing version of the image 
     nopp_hsv_img = cv2.cvtColor(rgb_img, cv2.COLOR_BGR2HSV)
 

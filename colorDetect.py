@@ -39,7 +39,7 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 
 def colorDetect(dir):
   files = os.listdir(dir)
-  fields = ['Filename', 'Color']
+  fields = ['Filename', 'Color','Dominant Color Ratio(%)']
   rows = []
 
   # Original HSV ranges for each color taken from 

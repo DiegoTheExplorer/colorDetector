@@ -46,7 +46,7 @@ def colorDetect(dir):
   # https://stackoverflow.com/questions/36817133/identifying-the-range-of-a-color-in-hsv-using-opencv
   # some values have been changed and pink was added
   
-  color_dict_HSV = {'black': [[180, 250, 30], [0, 0, 0]],
+  color_dict_HSV = {'black': [[180, 250, 30], [0, 1, 1]],
                 'white': [[180, 18, 255], [0, 0, 231]],
                 'red2': [[9, 255, 255], [0, 50, 70]],
                 'orange': [[20, 255, 255], [10, 50, 70]],
@@ -78,17 +78,20 @@ def colorDetect(dir):
     height = rgb_img.shape[0]
 
     # resize if the image is too large
-    if (width > 1024):
-      rgb_img = image_resize(rgb_img, width=1024)
-    if (height > 576):
-      rgb_img = image_resize(rgb_img, height=576)
+    if (width > 720):
+      rgb_img = image_resize(rgb_img, width=720)
+    if (height > 405):
+      rgb_img = image_resize(rgb_img, height=405)
     
+    width = rgb_img.shape[1]
+    height = rgb_img.shape[0]
+
     # Use grabcut to remove atleast some of the background
     mask = np.zeros(rgb_img.shape[:2],np.uint8)
     bgdModel =  np.zeros((1,65),np.float64)
     fgdModel =  np.zeros((1,65),np.float64)
 
-    rect =	(0,0,width, height)
+    rect =	(0,0,width - 1, height - 1)
     cv2.grabCut(rgb_img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
     mask2 =	np.where((mask==2)|(mask==0),0,1).astype('uint8')
     rgb_img   =	rgb_img * mask2[:,:,np.newaxis]
@@ -140,9 +143,9 @@ def colorDetect(dir):
     
 
     #display image with the identified color as the window name
-    # cv2.imshow(car_color,inpaint_img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.imshow(car_color,inpaint_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
   
   with open('data.csv', 'w') as f:
     write = csv.writer(f)

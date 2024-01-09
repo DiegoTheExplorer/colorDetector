@@ -8,7 +8,7 @@ def colorDetect(dir):
   # HSV ranges for each color taken from 
   # https://stackoverflow.com/questions/36817133/identifying-the-range-of-a-color-in-hsv-using-opencv
 
-  color_dict_HSV = {'black': [[180, 255, 30], [0, 0, 1]],
+  color_dict_HSV = {'black': [[180, 250, 30], [0, 0, 1]],
                 'white': [[180, 18, 255], [0, 0, 231]],
                 'red1': [[180, 255, 230], [166, 50, 70]],
                 'red2': [[9, 255, 230], [0, 50, 70]],

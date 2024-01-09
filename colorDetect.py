@@ -88,10 +88,10 @@ def colorDetect(dir):
     bgdModel =  np.zeros((1,65),np.float64)
     fgdModel =  np.zeros((1,65),np.float64)
 
-    rect =	(0,0,width - 1, height - 1)
+    rect =	(0,0,width, height)
     cv2.grabCut(rgb_img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
     mask2 =	np.where((mask==2)|(mask==0),0,1).astype('uint8')
-    rgb_img   =	rgb_img*mask2[:,:,np.newaxis]
+    rgb_img   =	rgb_img * mask2[:,:,np.newaxis]
 
     # no post processing version of the image 
     nopp_hsv_img = cv2.cvtColor(rgb_img, cv2.COLOR_BGR2HSV)
